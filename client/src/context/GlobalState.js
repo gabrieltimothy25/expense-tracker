@@ -38,17 +38,46 @@ export const GlobalProvider = ({ children }) => {
   }
 
   function deleteTransaction(id) {
-    dispatch({
-      type: "DELETE_TRANSACTION",
-      payload: id,
-    });
+    API({
+      method: "delete",
+      url: `transactions/${id}`,
+    })
+      .then((res) => {
+        dispatch({
+          type: "DELETE_TRANSACTION",
+          payload: id,
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: "TRANSACTION_ERROR",
+          payload: err.message,
+        });
+      });
   }
 
   function addTransaction(transaction) {
-    dispatch({
-      type: "ADD_TRANSACTION",
-      payload: transaction,
-    });
+    API({
+      method: "post",
+      url: "/transactions",
+      data: transaction,
+    })
+      .then((res) => {
+        dispatch({
+          type: "ADD_TRANSACTION",
+          payload: {
+            _id: res.data.id,
+            text: transaction.text,
+            amount: transaction.amount,
+          },
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: "TRANSACTION_ERROR",
+          payload: err.message,
+        });
+      });
   }
 
   return (

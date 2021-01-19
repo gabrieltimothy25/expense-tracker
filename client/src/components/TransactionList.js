@@ -15,10 +15,7 @@ export default function TransactionList() {
       <h3>History</h3>
       <ul className="list">
         {transactions.map((transaction) => (
-          <Transaction
-            transaction={transaction}
-            key={Math.floor(Math.random() * 1000)}
-          />
+          <Transaction transaction={transaction} key={transaction._id} />
         ))}
       </ul>
     </>

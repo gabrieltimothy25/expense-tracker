@@ -17,7 +17,7 @@ module.exports = {
         amount: req.body.amount,
       })
         .then((data) => {
-          res.status(200).json({ ...data, status: "successfully created" });
+          res.status(200).json({ id: data.id, status: "successfully created" });
         })
         .catch((err) => {
           res.status(500).json(err);
@@ -28,5 +28,17 @@ module.exports = {
         error: "one or more fields are empty",
       });
     }
+  },
+  removeTransaction(req, res, next) {
+    Transaction.findByIdAndDelete(req.params.id)
+      .then((data) => {
+        res.status(200).json({ ...data, status: "successfully deleted" });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          success: false,
+          error: err.message,
+        });
+      });
   },
 };
