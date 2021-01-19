@@ -5,6 +5,12 @@ export default function AppReducer(state, action) {
         ...state,
         transactions: [...state.transactions, action.payload],
       };
+    case "FETCH_TRANSACTIONS":
+      return {
+        ...state,
+        loading: false,
+        transactions: action.payload,
+      };
     case "DELETE_TRANSACTION":
       return {
         ...state,

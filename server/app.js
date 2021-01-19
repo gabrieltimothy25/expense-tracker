@@ -6,10 +6,11 @@ const routes = require("./routes");
 const app = express();
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const cors = require("cors");
 
 // mongoose odm
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/expense-tracker", {
+mongoose.connect("mongodb://localhost/expenseTracker", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -20,12 +21,16 @@ db.once("open", function () {
   console.log("Connection to database is successful.");
 });
 
-// routing
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(cors());
+
+app.disable("etag");
+
 app.use(morgan("dev"));
 
+// routing
 app.use("/", routes);
 
 app.listen(process.env.PORT, () => {
